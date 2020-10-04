@@ -63,3 +63,155 @@ a, p {
 body  {
 	overflow: hidden;
 }
+
+//  icon
+.icon-home,
+.icon-refs,
+.icon-back {
+	position: fixed;
+	top: 35px;
+	right: 50px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	z-index: 140;
+}
+
+.icon-home {
+	width: 50px;
+	height: 45px;
+	background-image: url('./images/btn-home.png');
+}
+
+.icon-refs {
+	right: auto;
+	left: 50px;
+	width: 43px;
+	height: 45px;
+	background-image: url('./images/icon-refs.png');
+}
+
+.icon-back {
+	width: 74px;
+	height: 46px;
+	background-image: url('./images/btn-back.png');
+}
+
+//  character
+.character03 {	
+	user-select: none;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+	background: url('./images/bg01.png') no-repeat;
+	background-size: cover;
+
+	.icon-home {
+		top: 458px;
+	}
+}
+
+.video {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding-top: 55.6%;
+	background: #000;
+	z-index: 120;
+}
+
+.character03-bd {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+	-webkit-overflow-scrolling: auto;
+	padding: 55.6% 0 85px 0;
+	text-align: center;
+	z-index: 110;
+
+	.img-wrap {
+		padding-top: 85px;
+
+		img {
+			width: 70%;
+		}
+	}
+}
+
+.character03-scroll-bar {
+	user-select: none;
+	position: fixed;
+	right: 5px;
+	bottom: 0;
+	width: 114px;
+	height: 664px;
+	background: url('./images/bg-scrollbar.png') no-repeat;
+	background-size: cover;
+	-ms-overflow-style: none;
+  scrollbar-width: none; 
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	.dot {
+		position: absolute;
+		top: 0;
+		left: 15px;
+		will-change: top;
+		width: 101px;
+		height: 92px;
+		background: url('./images/img-scrollbar.png') no-repeat;
+		background-size: cover;
+	}
+}
+
+//  share
+.share {	
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 30;
+	background: url('./images/bg-share.jpg') no-repeat;
+	background-size: cover;
+
+	.img {
+		position: absolute;
+		bottom: 81px;
+		left: 0;
+		right: 0;
+		width: 172px;
+		height: 172px;
+		margin: 0 auto;
+	}
+}
+
+// refs
+.refs {
+	overflow: auto;
+	-webkit-overflow-scrolling: auto;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 50;
+	padding: 48px 0;
+	z-index: 100;
+	background: url('./images/bg01.png') no-repeat;
+	background-size: cover;
+
+	.img {
+		display: block;
+		width: 574px;
+		margin: 0 auto;
+	}
+}

@@ -25,7 +25,12 @@ export default {
         this.destroy();
         pageBurning.init(this.stage);
       } },
-      { name: 'btn03', x: -PSD_WIDTH, y: 708, wait: 2000, onClick: () => {} },
+      { name: 'btn03', x: -PSD_WIDTH, y: 708, wait: 2000, onClick: () => {
+        this.destroy();
+        document.querySelector('.character03').style.display = 'block';
+        document.querySelector('.character03-bd').scrollTop = 0;
+        document.querySelector('.dot').style.top = 0;
+      } },
     ].forEach(({ name, x, y, wait, onClick }) => {
       let bitmap = new createjs.Bitmap(preload.queue.getResult(name));
       bitmap.x = x;

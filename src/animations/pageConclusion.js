@@ -89,6 +89,10 @@ export default {
     this.pagination && this.pagination.destroy();
     this.pagination = pagination(this.stage);
     this.pagination.paging({ tipsId: 'p4-tips', onClick: () => {
+      this.destroy();
+      document.querySelector('.character03').style.display = 'block';
+      document.querySelector('.character03-bd').scrollTop = 0;
+      document.querySelector('.dot').style.top = 0;
     }});
   },
 

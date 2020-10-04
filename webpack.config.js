@@ -26,6 +26,13 @@ let config = {
             loader: "css-loader?name=/static/[name].[hash].[ext]",
           },
           {
+            loader: require.resolve('px2rem-loader'),
+            options: {
+                remUni: 75,
+                remPrecision: 8
+            }
+          },
+          {
             loader: "less-loader?name=/static/[name].[hash].[ext]",
             options: {
               strictMath: true,
