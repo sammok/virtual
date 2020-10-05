@@ -22,9 +22,9 @@ export default {
   draw() {
     let config = [
       { id: 'conclusion-text01', x: 161, y: 96 },
-      { id: 'conclusion-text02', x: 213, y: 236 },
-      { id: 'conclusion-text03', x: 227, y: 290 },
-      { id: 'conclusion-text04', x: 219, y: 345 },
+      { id: 'conclusion-text02', x: 213, y: 236, fromLeft: true },
+      { id: 'conclusion-text03', x: 227, y: 290, fromLeft: true },
+      { id: 'conclusion-text04', x: 219, y: 345, fromLeft: true },
       { id: 'conclusion-text05', x: 182, y: 396 },
       { id: 'img-conclusion01', x: 33, y: 413 },
       { id: 'img-conclusion02', x: 89, y: 691, modalIndex: 1},
@@ -32,7 +32,7 @@ export default {
       { id: 'img-conclusion04', x: 89, y: 885, modalIndex: 3},
     ];
 
-    config.forEach(({ id, x, y, modalIndex }, index) => {
+    config.forEach(({ id, x, y, modalIndex, fromLeft }, index) => {
       let img = new createjs.Bitmap(preload.queue.getResult(id));
       img.x = x;
       img.y = y + 10;
@@ -45,15 +45,26 @@ export default {
         let backBtn = new createjs.Bitmap(preload.queue.getResult('btn-back'));
         backBtn.x = PSD_WIDTH - 104;
         backBtn.y = 35;
-        backBtn.addEventListener('click', () => {
+        backBtn.on('click', () => {
+          console.log('click');
+          return;
           this.stage.removeChild(backBtn);
           modalObj.destroy();
           this.draw();
         });
         this.stage.addChild(backBtn);
-        this.stage.setChildIndex(backBtn, 40);
+        this.stage.setChildIndex(backBtn, 140);
       });
-      createjs.Tween.get(img).wait(250 * index).to({ y: y, alpha: 1}, 450, createjs.Ease.quadIn);
+
+      if (fromLeft) {
+        img.x = -PSD_WIDTH;
+        img.alpha = 1;
+        createjs.Tween.get(img).wait(250 * index).to({ x}, 1100, createjs.Ease.easeOut);
+      }
+      else {
+        createjs.Tween.get(img).wait(index < 4 ? 250 * index : 400 * index).to({ y: y, alpha: 1}, 450, createjs.Ease.quadIn);
+      }
+
       this.drawedObjects.push(img);
       this.stage.addChild(img);
       this.timer = setTimeout(() => {

@@ -27,7 +27,7 @@ const App = {
         this.canvas.height = viewHeight / scale;
         this.canvas.style.width = viewWidth + "px";
         this.canvas.style.height = viewHeight + "px";
-        
+
         //  创建舞台
         this.stage = new createjs.Stage(this.canvas);
 
@@ -35,6 +35,7 @@ const App = {
             this.stage.update();
         });
         //  支持 touch 事件
+        createjs.Touch.enable(this.stage);
         createjs.Touch.enable(this.stage);
     },
     initCharacter03() {
@@ -74,8 +75,8 @@ const App = {
             this.initShare();
             this.initRefs();
 
-            pageHome.init(this.stage);
-            // pageBurning.init(this.stage);
+            // pageHome.init(this.stage);
+            pageBurning.init(this.stage);
             // pageMenu.init(this.stage);
             // pageText.init(this.stage);
             // pageConclusion.init(this.stage);

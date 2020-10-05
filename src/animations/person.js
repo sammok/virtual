@@ -40,9 +40,7 @@ export default {
     this.personContainer.x = (PSD_WIDTH - this.person.image.width) / 2;
     this.personContainer.y = PSD_HEIGHT - this.person.image.height;
     this.personContainer.alpha = 0.53;
-    this.personContainer.scaleX = 1.1;
-    this.personContainer.scaleY = 1.1;
-    createjs.Tween.get(this.personContainer).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 1200, createjs.Ease.easeOut);
+    createjs.Tween.get(this.personContainer).to({ alpha: 1 }, 1200, createjs.Ease.easeOut);
     
     let personDot01 = new createjs.Bitmap(preload.queue.getResult('person-dot01'));
     personDot01.x = 237;
@@ -74,7 +72,7 @@ export default {
 
   openModal (index) {
     this.backBtn.visible = false;
-    createjs.Tween.get(this.personContainer).to({ alpha: 0.53, scaleX: 1.1, scaleY: 1.1 }, 750, createjs.Ease.easeOut);
+    createjs.Tween.get(this.personContainer).to({ alpha: 0.53 }, 750, createjs.Ease.easeOut);
 
     let modalObj = modal(this.stage);
     modalObj.draw(`modal-text0${index + 1}`);
@@ -83,7 +81,7 @@ export default {
       this.stage.removeChild(backButton);
       modalObj.destroy();
       this.backBtn.visible = true;
-      createjs.Tween.get(this.personContainer).to({ alpha: 1, scaleX: 1, scaleY: 1 }, 750, createjs.Ease.easeOut);
+      createjs.Tween.get(this.personContainer).to({ alpha: 1 }, 750, createjs.Ease.easeOut);
     });
     backButton.x = PSD_WIDTH - 104;
     backButton.y = 35;

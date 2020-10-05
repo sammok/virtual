@@ -70,17 +70,17 @@ export default {
       animations: {
         a: {
           frames: [],
-          speed: 0.15,
+          speed: 0.1,
           next: false,
         },
         b: {
           frames: [],
-          speed: 0.15,
+          speed: 0.1,
           next: false,
         },
         c: {
           frames: [],
-          speed: 0.15,
+          speed: 0.1,
           next: false
         },
       },
@@ -261,7 +261,7 @@ export default {
     }
 
     let ps = new ParticleSystem();
-    ps.lifetime = { min: 10000, max: 20000 };
+    ps.lifetime = { min: 5000, max: 15000 };
     ps.position = { x: { min: 0, max: 0 }, y: { min: PSD_HEIGHT - 450, max: PSD_HEIGHT }  };
     ps.finalPosition = { x: { min: 140, max: 432 }, y: { min: -2, max: -5 } };
     ps.size = { min: 1, max: 4 };
