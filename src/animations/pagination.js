@@ -25,7 +25,11 @@ export default ((stage) => (
             run: {
               frames: [],
               speed: 0.4,
-              next: false
+              next: 'repeat'
+            },
+            repeat: {
+              frames: [],
+              speed: 0.1
             },
         },
       };
@@ -34,6 +38,19 @@ export default ((stage) => (
         data.images.push(preload.queue.getResult(`pageFrames${i}`));
         data.animations.run.frames.push(i - 1);
       }
+
+
+      for (let i = 22; i >= 20; --i) {
+        data.images.push(preload.queue.getResult(`pageFrames${i}`));
+        data.animations.repeat.frames.push(i - 1);
+      }
+      
+      for (let i = 20; i <= 22; ++i) {
+        data.images.push(preload.queue.getResult(`pageFrames${i}`));
+        data.animations.repeat.frames.push(i - 1);
+      }
+
+      data.animations.run.frames.push();
   
       var spriteSheet = new createjs.SpriteSheet(data);
       var animation = new createjs.Sprite(spriteSheet, 'run');

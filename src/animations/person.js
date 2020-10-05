@@ -24,7 +24,7 @@ export default {
     this.stage.addChild(bg);
     this.stage.setChildIndex(bg, 10);
 
-    this.backBtn = creator.bgCreator('btn-home');
+    this.backBtn = creator.btnCreator('btn-home');
     this.backBtn.x = PSD_WIDTH - 104;
     this.backBtn.y = 35;
     this.backBtn.addEventListener('click', () => {
