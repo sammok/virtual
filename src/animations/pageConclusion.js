@@ -2,6 +2,7 @@ import preload from '../preload';
 import pagination from './pagination';
 import pageMenu from './pageMenu';
 import modal from './modal';
+import creator from './creator';
 
 export default {
   stage: null,
@@ -13,7 +14,7 @@ export default {
   drawedObjects: [],
 
   createBg() {
-    let bg = new createjs.Bitmap(preload.queue.getResult('bg01'));
+    let bg = creator.bgCreator('bg01');
     this.objectsForDestroy.push(bg);
     this.stage.addChild(bg);
     this.stage.setChildIndex(bg, 10);
@@ -42,12 +43,11 @@ export default {
         let modalObj = modal(this.stage);
         modalObj.draw('modal-conclusion0' + modalIndex);
 
-        let backBtn = new createjs.Bitmap(preload.queue.getResult('btn-back'));
+        let backBtn = creator.btnCreator('btn-back');
         backBtn.x = PSD_WIDTH - 104;
         backBtn.y = 35;
         backBtn.on('click', () => {
-          console.log('click');
-          return;
+          console.log('clicked')
           this.stage.removeChild(backBtn);
           modalObj.destroy();
           this.draw();
@@ -72,7 +72,7 @@ export default {
       }, config.length * 250);
     });
 
-    this.backBtn = new createjs.Bitmap(preload.queue.getResult('btn-home'));
+    this.backBtn = creator.btnCreator('btn-home');
     this.backBtn.x = PSD_WIDTH - 104;
     this.backBtn.y = 35;
     this.backBtn.addEventListener('click', () => {

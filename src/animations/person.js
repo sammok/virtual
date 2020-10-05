@@ -2,6 +2,8 @@ import preload from '../preload';
 import pagination from './pagination';
 import pageMenu from './pageMenu';
 import modal from './modal';
+import creator from './creator';
+import pageBurning from './pageBurning';
 
 export default {
   stage: null,
@@ -17,12 +19,12 @@ export default {
   backBtn: null,
 
   createBg() {
-    let bg = new createjs.Bitmap(preload.queue.getResult('bg01'));
+    let bg = creator.bgCreator('bg01');
     this.objectsForDestroy.push(bg);
     this.stage.addChild(bg);
     this.stage.setChildIndex(bg, 10);
 
-    this.backBtn = new createjs.Bitmap(preload.queue.getResult('btn-home'));
+    this.backBtn = creator.bgCreator('btn-home');
     this.backBtn.x = PSD_WIDTH - 104;
     this.backBtn.y = 35;
     this.backBtn.addEventListener('click', () => {
@@ -38,7 +40,7 @@ export default {
     this.personContainer = new createjs.Container();
     this.person = new createjs.Bitmap(preload.queue.getResult('img-person'));
     this.personContainer.x = (PSD_WIDTH - this.person.image.width) / 2;
-    this.personContainer.y = PSD_HEIGHT - this.person.image.height;
+    this.personContainer.y = CANVAS_HEIGHT - this.person.image.height;
     this.personContainer.alpha = 0.53;
     createjs.Tween.get(this.personContainer).to({ alpha: 1 }, 1200, createjs.Ease.easeOut);
     
@@ -98,6 +100,8 @@ export default {
     this.pagination && this.pagination.destroy();
     this.pagination = pagination(this.stage);
     this.pagination.paging({ tipsId: 'p3-tips', onClick: () => {
+      this.destroy();
+      pageBurning.init(this.stage);
     }});
   },
 

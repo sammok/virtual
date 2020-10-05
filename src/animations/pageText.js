@@ -2,6 +2,7 @@ import preload from '../preload';
 import pagination from './pagination';
 import pageMenu from './pageMenu';
 import person from './person';
+import creator from './creator';
 
 export default {
   stage: null,
@@ -15,12 +16,12 @@ export default {
   backBtn: null,
 
   createBg() {
-    let bg = new createjs.Bitmap(preload.queue.getResult('bg01'));
+    let bg = creator.bgCreator('bg01');
     this.objectsForDestroy.push(bg);
     this.stage.addChild(bg);
     this.stage.setChildIndex(bg, 10);
 
-    this.backBtn = new createjs.Bitmap(preload.queue.getResult('btn-home'));
+    this.backBtn = creator.btnCreator('btn-home');
     this.backBtn.x = PSD_WIDTH - 104;
     this.backBtn.y = 35;
     this.backBtn.addEventListener('click', () => {
@@ -46,7 +47,7 @@ export default {
         let bitmap = new createjs.Bitmap(img);
         let newX = x + (index > 0 ? letterWidth * index : 0);
         bitmap.x = rand(-100, PSD_WIDTH + 100);
-        bitmap.y = rand(-100, PSD_HEIGHT + 100);
+        bitmap.y = rand(-100, CANVAS_HEIGHT + 100);
         bitmap.alpha = 0;
         bitmap.rotation = rand(0, 360);
         bitmap.scale = rand(1, 1.5);

@@ -59,7 +59,16 @@
 
         var PSD_WIDTH = 750;
         var PSD_HEIGHT = 1206;
+        var DESIGN_WIDTH = PSD_WIDTH;
+        var designHeight = PSD_HEIGHT;
+        var VIEW_WIDTH = SCREEN_WIDTH; // 获取浏览器可视区域宽度
+        var VIEW_HEIGHT = SCREEN_HEIGHT; // 获取浏览器可视区域高度
+        var SCALE = VIEW_WIDTH / DESIGN_WIDTH; // 缩放因子
 
+        CANVAS_WIDTH = VIEW_WIDTH / SCALE;
+        CANVAS_HEIGHT = VIEW_HEIGHT / SCALE;
+        IMAGE_COVER_SCALE = null;
+        
         function rand(min, max) {
             return (
                 (Math.floor(Math.random() * (max * 1000 - min * 1000 + 1)) +
@@ -102,7 +111,7 @@ this.createjs=this.createjs||{},createjs.extend=function(a,b){"use strict";funct
         var docEl = document.documentElement
         var dpr = window.devicePixelRatio || 1
         
-        // set 1rem = viewWidth / 10
+        // set 1rem = VIEW_WIDTH / 10
         function setRemUnit () {
             var rem = docEl.clientWidth / 10
             docEl.style.fontSize = rem + 'px'

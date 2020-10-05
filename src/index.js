@@ -15,18 +15,13 @@ createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 //  App
 const App = {
     stage: null,
-    initStage() {
+    initStage() {   
         //  创建 canvas
         this.canvas = document.querySelector('.canvas');
-        var designWidth = PSD_WIDTH;
-        var designHeight = PSD_HEIGHT;
-        var viewWidth = SCREEN_WIDTH; // 获取浏览器可视区域宽度
-        var viewHeight = SCREEN_HEIGHT; // 获取浏览器可视区域高度
-        var scale = viewWidth / designWidth; // 缩放因子
-        this.canvas.width = designWidth;
-        this.canvas.height = viewHeight / scale;
-        this.canvas.style.width = viewWidth + "px";
-        this.canvas.style.height = viewHeight + "px";
+        this.canvas.width = DESIGN_WIDTH;
+        this.canvas.height = VIEW_HEIGHT / SCALE;
+        this.canvas.style.width = VIEW_WIDTH + "px";
+        this.canvas.style.height = VIEW_HEIGHT + "px";
 
         //  创建舞台
         this.stage = new createjs.Stage(this.canvas);
@@ -75,8 +70,8 @@ const App = {
             this.initShare();
             this.initRefs();
 
-            // pageHome.init(this.stage);
-            pageBurning.init(this.stage);
+            pageHome.init(this.stage);
+            // pageBurning.init(this.stage);
             // pageMenu.init(this.stage);
             // pageText.init(this.stage);
             // pageConclusion.init(this.stage);

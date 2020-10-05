@@ -2,6 +2,7 @@ import preload from '../preload';
 import pageText from './pageText';
 import pagination from './pagination';
 import pageBurning from './pageBurning';
+import creator from './creator';
 
 export default {
   objectsForDestroy: [],
@@ -9,7 +10,7 @@ export default {
   particleSystems: [],
 
   createBg() {
-    let bitmap = new createjs.Bitmap(preload.queue.getResult('bg01'));
+    let bitmap = creator.bgCreator('bg01');
     this.objectsForDestroy.push(bitmap);
     this.stage.addChild(bitmap);
     this.stage.setChildIndex(bitmap, 10);

@@ -1,6 +1,7 @@
 import preload from '../preload';
 import pageMenu from './pageMenu';
 import pagination from './pagination';
+import creator from './creator';
 
 export default {
   stage: null,
@@ -8,7 +9,7 @@ export default {
   objectsForDestroy: [],
 
   bg() {
-    let bitmap = new createjs.Bitmap(preload.queue.getResult('p1-bg'));
+    let bitmap = creator.bgCreator('p1-bg');
     this.objectsForDestroy.push(bitmap);
     this.stage.addChild(bitmap)
     this.stage.setChildIndex(bitmap, 0);
