@@ -73,13 +73,16 @@ export default {
   },
 
   openModal (index) {
+    if (this.isModalOpen) return;
+    this.isModalOpen = true;
     this.backBtn.visible = false;
     createjs.Tween.get(this.personContainer).to({ alpha: 0.53 }, 750, createjs.Ease.easeOut);
 
     let modalObj = modal(this.stage);
     modalObj.draw(`modal-text0${index + 1}`);
-    let backButton = new createjs.Bitmap(preload.queue.getResult('btn-back'));
+    let backButton = creator.btnCreator('btn-back');
     backButton.addEventListener('click', () => {
+      this.isModalOpen = false;
       this.stage.removeChild(backButton);
       modalObj.destroy();
       this.backBtn.visible = true;

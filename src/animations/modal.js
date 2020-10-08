@@ -6,7 +6,7 @@ export default stage => ({
   draw (modalTextId) {
     let container = new createjs.Container();
     container.x = 75;
-    container.y = 155;
+    container.y = (CANVAS_HEIGHT - 794) / 2;
     this.objectsForDestroy.push(container);
 
     //  bg
@@ -36,8 +36,6 @@ export default stage => ({
 
     createjs.Tween.get(text).to({ alpha: 1 }, 750, createjs.Ease.linear);
 
-    this.objectsForDestroy.push(bg);
-    this.objectsForDestroy.push(text);
     container.addChild(bg, text);
     stage.addChild(container);
     stage.setChildIndex(container, 10);

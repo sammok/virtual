@@ -36,17 +36,18 @@ const App = {
         let isWaiting = false;
         document.querySelector('.character03-bd').addEventListener('scroll', function () {
             let scrollBarHeight = document.querySelector('.character03-scroll-bar').getBoundingClientRect().height;
+            let containerHeight = document.querySelector('.character03-bd').getBoundingClientRect().height;
             let imgHeight = parseInt(document.querySelector('.img').offsetHeight);
             let scrollBar = document.querySelector('.dot');
             scrollBar.style.top = parseInt(this.scrollTop / imgHeight * scrollBarHeight) + 'px';
-            if(imgHeight - scrollBarHeight - this.scrollTop <= 30) {
+            if(imgHeight < this.scrollTop + containerHeight) {
                 if (isWaiting) return;
                 isWaiting = true;
                 setTimeout(() => {
                     isWaiting = false;
                     document.querySelector('.character03').style.display = 'none';
                     document.querySelector('.share').style.display = 'block';
-                }, 500);
+                }, 3000);
             }
         });
     },

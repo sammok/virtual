@@ -2,6 +2,7 @@ import preload from '../preload';
 import pageConclusion from './pageConclusion';
 import pageMenu from './pageMenu';
 import creator from './creator';
+import curve from './curve';
 
 export default {
   step: 0,
@@ -64,34 +65,11 @@ export default {
   },
 
   initCurve() {
-    //  翻页
-    var data = {
-      images: [],
-      frames: { width: 750, height: 460 },
-      animations: {
-        a: {
-          frames: [],
-          speed: 0.1,
-          next: false,
-        },
-        b: {
-          frames: [],
-          speed: 0.1,
-          next: false,
-        },
-        c: {
-          frames: [],
-          speed: 0.1,
-          next: false
-        },
-      },
-    };
+    let data = curve();
 
-    ['a', 'b', 'c'].forEach((id, index) => {
-      for (let i = 1; i <= 80; ++i) {
-        data.images.push(preload.queue.getResult(`curve${id.toUpperCase()}Frames${i}`));
-        data.animations[id].frames.push(i - 1 + 80 * index);
-      }
+    //  翻页
+    data.images = data.images.map((id, index) => {
+      return preload.queue.getResult(id);
     });
 
     this.spriteSheet = new createjs.SpriteSheet(data);
@@ -110,8 +88,8 @@ export default {
     }
 
     if (index === 3) {
-      pageConclusion.init(this.stage);
       this.destroy();
+      pageConclusion.init(this.stage);
       return;
     }
 
@@ -254,7 +232,7 @@ export default {
           x: rand(this.position.x.min, this.position.x.max),
           y: rand(this.position.y.min, this.position.y.max)
         };
-        p.size = this.size;
+        p.size = Math.random() > 0.7 ? this.size : { min: 2, max: 2 };
         p.finalPosition = { x: rand(this.finalPosition.x.min, this.finalPosition.x.max), y: rand(this.finalPosition.y.min, this.finalPosition.y.max) };
         this.particles.push(p);
         p.update(stage);
@@ -265,9 +243,9 @@ export default {
     ps.lifetime = { min: 5000, max: 15000 };
     ps.position = { x: { min: 0, max: 0 }, y: { min: CANVAS_HEIGHT - 450, max: CANVAS_HEIGHT }  };
     ps.finalPosition = { x: { min: 140, max: 432 }, y: { min: -2, max: -5 } };
-    ps.size = { min: 1, max: 4 };
-    ps.generatePerRound = { min: 2, max: 4 };
-    ps.count = 1500;
+    ps.size = { min: 2, max: 4 };
+    ps.generatePerRound = { min: 3, max: 6 };
+    ps.count = 3000;
 
     this.particleSystems.push(ps);
 
@@ -316,6 +294,7 @@ export default {
   init(stage) {
     this.step = 0;
     this.stage = stage;
+    this.destroyed = false;
     this.createBg();
     this.initCurve();
     this.createTips();

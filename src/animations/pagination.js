@@ -1,4 +1,5 @@
 import preload from '../preload';
+import pageFrame from './pageFrame';
 
 export default ((stage) => (
   {
@@ -18,39 +19,8 @@ export default ((stage) => (
   
     paging({ tipsId, onClick }={}) {
       //  翻页
-      var data = {
-        images: [],
-        frames: {width: 290, height: 307},
-        animations: {
-            run: {
-              frames: [],
-              speed: 0.4,
-              next: 'repeat'
-            },
-            repeat: {
-              frames: [],
-              speed: 0.1
-            },
-        },
-      };
-
-      for (let i = 1; i <= 22; ++i) {
-        data.images.push(preload.queue.getResult(`pageFrames${i}`));
-        data.animations.run.frames.push(i - 1);
-      }
-
-
-      for (let i = 22; i >= 20; --i) {
-        data.images.push(preload.queue.getResult(`pageFrames${i}`));
-        data.animations.repeat.frames.push(i - 1);
-      }
-      
-      for (let i = 20; i <= 22; ++i) {
-        data.images.push(preload.queue.getResult(`pageFrames${i}`));
-        data.animations.repeat.frames.push(i - 1);
-      }
-
-      data.animations.run.frames.push();
+      let data = pageFrame();
+      data.images = data.images.map(id => preload.queue.getResult(id));
   
       var spriteSheet = new createjs.SpriteSheet(data);
       var animation = new createjs.Sprite(spriteSheet, 'run');

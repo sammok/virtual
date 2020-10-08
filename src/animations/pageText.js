@@ -15,6 +15,8 @@ export default {
 
   backBtn: null,
 
+  timer: null,
+
   createBg() {
     let bg = creator.bgCreator('bg01');
     this.objectsForDestroy.push(bg);
@@ -33,7 +35,7 @@ export default {
     this.stage.setChildIndex(this.backBtn, 40);
   },
   
-  draw ({ array, x, y, width, height, bitmapId }) {
+  draw ({ array, x, y, width, height, bitmapId, cb }) {
     let img = preload.queue.getResult(bitmapId);
     let letterWidth = 44;
     let letterHeight = 36;
@@ -59,6 +61,9 @@ export default {
     this.drawedObjects.push(container);
     this.stage.addChild(container);
     this.stage.setChildIndex(container, 40);
+    this.timer = setTimeout(() => {
+      cb();
+    }, 5500);
   },
 
   clearDraw () {
@@ -66,62 +71,87 @@ export default {
   },
 
   destroy () {
+    clearTimeout(this.timer);
     this.clearDraw();
     this.objectsForDestroy.forEach(obj => this.stage.removeChild(obj));
     this.pagination && this.pagination.destroy();
   },
   
   next () {
-    ++ this.step;
-
-    // ++this.step;
-    if (this.step === 1) {
-      this.draw({
-        bitmapId: 'img-text01',
-        array: [
-          { x: 88, y: 0, num: 5 },
-          { x: 88, y: 81, num: 5 },
-          { x: 0, y: 240, num: 9 },
-          { x: 110, y: 320, num: 4 },
-          { x: 84, y: 400, num: 6 },
-          { x: 91, y: 480, num: 6 },
-        ],
-        x: 195,
-        y: 327,
-        width: 432,
-        height: 332,
-      });
-      this.genPagination();
-    }
-    else if (this.step === 2) {
-      this.clearDraw();
-      this.draw({
-        bitmapId: 'img-text02',
-        array: [
-          { x: 47, y: 0, num: 7 },
-          { x: 0, y: 81, num: 9 },
-          { x: 54, y: 240, num: 7 },
-          { x: 38, y: 320, num: 8 },
-          { x: 44, y: 400, num: 7 },
-        ],
-        x: 191,
-        y: 264,
-        width: 391,
-        height: 437
-      });
-      this.genPagination();
-    }
-    else if (this.step === 3) {
-      this.destroy();
-      person.init(this.stage);
-    }
+    ++this.step;
+    this.draw({
+      bitmapId: 'img-text01',
+      array: [
+        { x: 88, y: 0, num: 5 },
+        { x: 88, y: 81, num: 5 },
+        { x: 0, y: 240, num: 9 },
+        { x: 110, y: 320, num: 4 },
+        { x: 84, y: 400, num: 6 },
+        { x: 91, y: 480, num: 6 },
+      ],
+      x: 195,
+      y: 327,
+      width: 432,
+      height: 332,
+      cb: () => {
+        if (this.step !== 1) return;
+        ++this.step;
+        this.clearDraw();
+        this.draw({
+          bitmapId: 'img-text02',
+          array: [
+            { x: 47, y: 0, num: 7 },
+            { x: 0, y: 81, num: 9 },
+            { x: 54, y: 240, num: 7 },
+            { x: 38, y: 320, num: 8 },
+            { x: 44, y: 400, num: 7 },
+          ],
+          x: 191,
+          y: 264,
+          width: 391,
+          height: 437,
+          cb: () => {
+            this.destroy();
+            person.init(this.stage);
+          }
+        });
+        this.genPagination();
+      }
+    });
+    this.genPagination();
   },
 
   genPagination () {
     this.pagination && this.pagination.destroy();
     this.pagination = pagination(this.stage);
     this.pagination.paging({ tipsId: 'p2-tips', onClick: () => {
-      this.next();
+      if (this.step === 1) {
+        ++this.step;
+        this.clearDraw();
+        this.draw({
+          bitmapId: 'img-text02',
+          array: [
+            { x: 47, y: 0, num: 7 },
+            { x: 0, y: 81, num: 9 },
+            { x: 54, y: 240, num: 7 },
+            { x: 38, y: 320, num: 8 },
+            { x: 44, y: 400, num: 7 },
+          ],
+          x: 191,
+          y: 264,
+          width: 391,
+          height: 437,
+          cb: () => {
+            this.destroy();
+            person.init(this.stage);
+          }
+        });
+        this.genPagination(); 
+      }
+      else {
+        this.destroy();
+        person.init(this.stage);
+      }
     }});
   },
 

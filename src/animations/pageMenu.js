@@ -58,14 +58,21 @@ export default {
             y: 708,
             cb: () => {
               this.destroy();
-              document.querySelector(".character03").style.display = "block";
-              document.querySelector(".character03-bd").scrollTop = 0;
-              document.querySelector(".dot").style.top = 0;
+              if (!document.querySelector('.video').innerHTML.includes('source')) {
+                let video = document.createElement('source');
+                video.src = 'http://qncdn.mercurymage.com/virtual03/video.mp4';
+                // video.poster = 'http://qncdn.mercurymage.com/virtual03/cover-video.jpg';
+                video.type = 'video/mp4';
+                document.querySelector('.video').appendChild(video);
+              }
+              document.querySelector('.character03').style.display = 'block';
+              document.querySelector('.character03-bd').scrollTop = 0;
+              document.querySelector('.dot').style.top = 0;
             },
           });
         },
       },
-    ].forEach(({ name, x, y, wait, onClick }) => {
+    ].forEach(({ name, x, y, wait, onClick }, index) => {
       let bitmap = new createjs.Bitmap(preload.queue.getResult(name));
       bitmap.x = x;
       bitmap.y = y;
@@ -83,7 +90,7 @@ export default {
             .wait(wait)
             .to({ alpha: 0.7 }, 1400, createjs.Ease.bounceOut)
             .to({ alpha: 1 }, 600, createjs.Ease.bounceIn);
-          this.createParticles({ y: y + 74 });
+          this.createParticles({ y: y + 74, index });
         });
       this.stage.addChild(bitmap);
       this.stage.setChildIndex(bitmap, 20);
@@ -98,7 +105,7 @@ export default {
       animations: {
         run: {
           frames: [],
-          speed: 0.1,
+          speed: 0.3,
           next: false,
         },
       },
@@ -120,7 +127,7 @@ export default {
     this.stage.setChildIndex(animation, 100);
   },
 
-  createParticles({ y, color }) {
+  createParticles({ y, color, index }) {
     function Particle() {
       this.lifetime = 100;
       this.size = { min: 1, max: 1 };
@@ -230,13 +237,13 @@ export default {
     }
 
     let ps = new ParticleSystem();
-    ps.lifetime = { min: 3000, max: 4000 };
+    ps.lifetime = ({ 0: { min: 2000, max: 3000 }, 1: { min: 6000, max: 7000 }, 2: { min: 7000, max: 8000 } })[index];
     ps.position = {
       x: { min: 160, max: 520 },
       y: { min: y, max: y + rand(10, 60) },
     };
     ps.finalPosition = {
-      x: { min: 208, max: 400 },
+      x: ({ 0: { min: 100, max: 400 }, 1: { min: 900, max: 1100 }, 2: { min: 1400, max: 1600 }})[index],
       y: { min: ps.position.y.min, max: ps.position.y.max },
     };
     ps.size = { min: 2, max: 2 };

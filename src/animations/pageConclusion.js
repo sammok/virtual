@@ -32,7 +32,11 @@ export default {
       { id: 'img-conclusion03', x: 89, y: 788 , modalIndex: 2},
       { id: 'img-conclusion04', x: 89, y: 885, modalIndex: 3},
     ];
+    
+    let container = new createjs.Container();
 
+    container.y = (CANVAS_HEIGHT - 870) / 2 - 96;
+    
     config.forEach(({ id, x, y, modalIndex, fromLeft }, index) => {
       let img = new createjs.Bitmap(preload.queue.getResult(id));
       img.x = x;
@@ -42,7 +46,7 @@ export default {
         this.cleanDraw();
         let modalObj = modal(this.stage);
         modalObj.draw('modal-conclusion0' + modalIndex);
-
+        
         let backBtn = creator.btnCreator('btn-back');
         backBtn.x = PSD_WIDTH - 104;
         backBtn.y = 35;
@@ -55,7 +59,7 @@ export default {
         this.stage.addChild(backBtn);
         this.stage.setChildIndex(backBtn, 140);
       });
-
+      
       if (fromLeft) {
         img.x = -PSD_WIDTH;
         img.alpha = 1;
@@ -64,14 +68,14 @@ export default {
       else {
         createjs.Tween.get(img).wait(index < 4 ? 250 * index : 400 * index).to({ y: y, alpha: 1}, 450, createjs.Ease.quadIn);
       }
-
+      
       this.drawedObjects.push(img);
-      this.stage.addChild(img);
+      container.addChild(img);
       this.timer = setTimeout(() => {
         this.genPagination();
       }, config.length * 250);
     });
-
+    
     this.backBtn = creator.btnCreator('btn-home');
     this.backBtn.x = PSD_WIDTH - 104;
     this.backBtn.y = 35;
@@ -80,7 +84,7 @@ export default {
       pageMenu.init(this.stage);
     });
     this.objectsForDestroy.push(this.backBtn);
-    this.stage.addChild(this.backBtn);
+    this.stage.addChild(this.backBtn, container);
     this.stage.setChildIndex(this.backBtn, 40);
   },
 
@@ -101,6 +105,13 @@ export default {
     this.pagination = pagination(this.stage);
     this.pagination.paging({ tipsId: 'p4-tips', onClick: () => {
       this.destroy();
+      if (!document.querySelector('.video').innerHTML.includes('source')) {
+        let video = document.createElement('source');
+        video.src = 'http://qncdn.mercurymage.com/virtual03/video.mp4';
+        video.poster = 'http://qncdn.mercurymage.com/virtual03/cover-video.jpg';
+        video.type = 'video/mp4';
+        document.querySelector('.video').appendChild(video);
+      }
       document.querySelector('.character03').style.display = 'block';
       document.querySelector('.character03-bd').scrollTop = 0;
       document.querySelector('.dot').style.top = 0;
