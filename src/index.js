@@ -30,7 +30,6 @@ const App = {
         });
         //  支持 touch 事件
         createjs.Touch.enable(this.stage);
-        createjs.Touch.enable(this.stage);
     },
     initCharacter03() {
         let isWaiting = false;
@@ -71,6 +70,23 @@ const App = {
             });  
         })
     },
+    initBGM() {
+        let played = false;
+        let audio = document.createElement('audio');
+        audio.src = 'http://qncdn.mercurymage.com/bkx/bgm1.mp3';
+        audio.loop = true;
+        document.querySelector('body').appendChild(audio);
+        let stage = this.stage;
+        stage.addEventListener('click', playAudio);
+
+        function playAudio() {
+            if (played) {
+                stage.removeEventListener('click', playAudio);
+            }
+            played = true;
+            audio.play();
+        }
+    },
     init() {
         preload.load(_ => {
             this.initStage();
@@ -79,6 +95,7 @@ const App = {
             this.initCharacter03();
             this.initShare();
             this.initRefs();
+            this.initBGM();
 
             pageHome.init(this.stage);
             // pageBurning.init(this.stage);

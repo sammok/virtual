@@ -34,8 +34,8 @@ export default {
     ];
     
     let container = new createjs.Container();
-
     container.y = (CANVAS_HEIGHT - 870) / 2 - 96;
+    this.drawedObjects.push(container);
     
     config.forEach(({ id, x, y, modalIndex, fromLeft }, index) => {
       let img = new createjs.Bitmap(preload.queue.getResult(id));
@@ -69,7 +69,6 @@ export default {
         createjs.Tween.get(img).wait(index < 4 ? 250 * index : 400 * index).to({ y: y, alpha: 1}, 450, createjs.Ease.quadIn);
       }
       
-      this.drawedObjects.push(img);
       container.addChild(img);
       this.timer = setTimeout(() => {
         this.genPagination();
@@ -83,7 +82,7 @@ export default {
       this.destroy();
       pageMenu.init(this.stage);
     });
-    this.objectsForDestroy.push(this.backBtn);
+    this.drawedObjects.push(this.backBtn);
     this.stage.addChild(this.backBtn, container);
     this.stage.setChildIndex(this.backBtn, 40);
   },

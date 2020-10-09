@@ -111,8 +111,8 @@ export default {
     else {
       //  粒子加倍
       this.particleSystems.forEach(ps => {
-        ps.count += ps.count * 4;
-        ps.generatePerRound = { min: ps.generatePerRound.min * 2, max: ps.generatePerRound.max * 2 };
+        ps.count += ps.count * 1.5;
+        ps.generatePerRound = { min: ps.generatePerRound.min * 3, max: ps.generatePerRound.max * 3 };
         ps.lifetime = { min: ps.lifetime.min * 0.75, max: ps.lifetime.max * 0.75 };
         ps.position = { x: { min: 0, max: 0 }, y: { min: CANVAS_HEIGHT - ({ 0: 450, 1: 520, 2: 670 })[index], max: CANVAS_HEIGHT }  };
         ps.finalPosition = { x: { min: ({ 0: 140, 1: 400, 2: 600 })[index], max: ({ 0: 432, 1: 648, 2: PSD_WIDTH })[index] }, y: { min: -2, max: -5 } };
@@ -139,6 +139,7 @@ export default {
   },
 
   createParticles({ y, color }={}) {
+    let step = this.step;
     function Particle() {
       this.lifetime = 100;
       this.size = { min: 1, max: 1 };
@@ -162,9 +163,9 @@ export default {
             rand(this.size.min, this.size.max),
             rand(this.size.min, this.size.max),
           );
-          // this.shape.alpha = rand(1, 1);
+          let x = Math.random() > 0.3 ? this.finalPosition.x * ({ 0: rand(0.3, 0.5), 1: rand(0.4, 0.6), 2: rand(0.5, 0.7) })[step] : this.finalPosition.x;
           createjs.Tween.get(this.shape)
-            .to({ x: this.finalPosition.x }, this.lifetime).on('complete', () => {
+            .to({ x }, this.lifetime).on('complete', () => {
               this.lifetime = 0;
             });
           
@@ -232,7 +233,7 @@ export default {
           x: rand(this.position.x.min, this.position.x.max),
           y: rand(this.position.y.min, this.position.y.max)
         };
-        p.size = Math.random() > 0.7 ? this.size : { min: 2, max: 2 };
+        p.size = Math.random() > 0.6 ? this.size : { min: 2, max: 2 };
         p.finalPosition = { x: rand(this.finalPosition.x.min, this.finalPosition.x.max), y: rand(this.finalPosition.y.min, this.finalPosition.y.max) };
         this.particles.push(p);
         p.update(stage);
@@ -244,7 +245,7 @@ export default {
     ps.position = { x: { min: 0, max: 0 }, y: { min: CANVAS_HEIGHT - 450, max: CANVAS_HEIGHT }  };
     ps.finalPosition = { x: { min: 140, max: 432 }, y: { min: -2, max: -5 } };
     ps.size = { min: 2, max: 4 };
-    ps.generatePerRound = { min: 3, max: 6 };
+    ps.generatePerRound = { min: 6, max: 10 };
     ps.count = 3000;
 
     this.particleSystems.push(ps);
