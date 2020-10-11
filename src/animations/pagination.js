@@ -18,7 +18,6 @@ export default ((stage) => (
     },
   
     paging({ tipsId, onClick }={}) {
-      //  翻页
       let data = pageFrame();
       data.images = data.images.map(id => preload.queue.getResult(id));
   

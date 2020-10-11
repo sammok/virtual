@@ -115,7 +115,7 @@ export default {
         ps.generatePerRound = { min: ps.generatePerRound.min * 3, max: ps.generatePerRound.max * 3 };
         ps.lifetime = { min: ps.lifetime.min * 0.75, max: ps.lifetime.max * 0.75 };
         ps.position = { x: { min: 0, max: 0 }, y: { min: CANVAS_HEIGHT - ({ 0: 450, 1: 520, 2: 670 })[index], max: CANVAS_HEIGHT }  };
-        ps.finalPosition = { x: { min: ({ 0: 140, 1: 400, 2: 600 })[index], max: ({ 0: 432, 1: 648, 2: PSD_WIDTH })[index] }, y: { min: -2, max: -5 } };
+        ps.finalPosition = { x: { min: ({ 0: 0, 1: 0, 2: 0 })[index], max: ({ 0: 432, 1: 648, 2: PSD_WIDTH })[index] }, y: { min: -2, max: -5 } };
       });
     }
 
@@ -146,6 +146,7 @@ export default {
       this.position = { x: 0, y: 0 };
       this.finalPosition = { x: { min: 0, max: 0 }, y: { min: 0, max: 0 } };
       this.shape = null;
+      this.isLongLife = false;
 
       this.isDead = function () {
         return (
@@ -163,21 +164,15 @@ export default {
             rand(this.size.min, this.size.max),
             rand(this.size.min, this.size.max),
           );
-          let x = Math.random() > 0.3 ? this.finalPosition.x * ({ 0: rand(0.3, 0.5), 1: rand(0.4, 0.6), 2: rand(0.5, 0.7) })[step] : this.finalPosition.x;
+          let x = this.finalPosition.x;
           createjs.Tween.get(this.shape)
-            .to({ x }, this.lifetime).on('complete', () => {
+            .to({ x }, this.lifetime * (this.isLongLife ? 1.5 : 1)).on('complete', () => {
+              if (this.isLongLife) return;
               this.lifetime = 0;
             });
           
-          // createjs.Tween.get(this.shape)
-          //   .to({ alpha: 0 }, 2500 * Math.random()).on('complete', () => {
-          //     this.lifetime = 0;
-          //   });
-
           stage.addChild(this.shape);
-          stage.setChildIndex(this.shape, stage.getNumChildren() - 1);
         }
-        this.lifetime -= 1;
       };
 
       this.dispose = function (stage) {
@@ -228,12 +223,13 @@ export default {
 
       const genParticle = (stage) => {
         let p = new Particle();
+        p.isLongLife = Math.random() > 0.6;
         p.lifetime = rand(this.lifetime.min, this.lifetime.max);
         p.position = {
           x: rand(this.position.x.min, this.position.x.max),
           y: rand(this.position.y.min, this.position.y.max)
         };
-        p.size = Math.random() > 0.6 ? this.size : { min: 2, max: 2 };
+        p.size = p.isLongLife ? this.size : { min: 2, max: 2 };
         p.finalPosition = { x: rand(this.finalPosition.x.min, this.finalPosition.x.max), y: rand(this.finalPosition.y.min, this.finalPosition.y.max) };
         this.particles.push(p);
         p.update(stage);
@@ -242,11 +238,11 @@ export default {
 
     let ps = new ParticleSystem();
     ps.lifetime = { min: 5000, max: 15000 };
-    ps.position = { x: { min: 0, max: 0 }, y: { min: CANVAS_HEIGHT - 450, max: CANVAS_HEIGHT }  };
-    ps.finalPosition = { x: { min: 140, max: 432 }, y: { min: -2, max: -5 } };
+    ps.position = { x: { min: -10, max: 0 }, y: { min: CANVAS_HEIGHT - 450, max: CANVAS_HEIGHT }  };
+    ps.finalPosition = { x: { min: 0, max: 450 }, y: { min: -2, max: -5 } };
     ps.size = { min: 2, max: 4 };
     ps.generatePerRound = { min: 6, max: 10 };
-    ps.count = 3000;
+    ps.count = 2000;
 
     this.particleSystems.push(ps);
 
@@ -254,7 +250,6 @@ export default {
     const tickUpdateHandler = () => {
       if (ps.destroyed) return;
       ps && ps.update(this.stage);
-      this.stage.update();
     }
     createjs.Ticker.addEventListener("tick", tickUpdateHandler);
   },

@@ -8,7 +8,7 @@ import modal from './animations/modal';
 import pageConclusion from './animations/pageConclusion';
 
 //  setting createjs
-createjs.Ticker.framerate = 60;
+createjs.Ticker.framerate = 65;
 createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 
 //  App
@@ -32,21 +32,55 @@ const App = {
         createjs.Touch.enable(this.stage);
     },
     initCharacter03() {
-        let isWaiting = false;
-        document.querySelector('.character03-bd').addEventListener('scroll', function () {
-            let scrollBarHeight = document.querySelector('.character03-scroll-bar').getBoundingClientRect().height;
-            let containerHeight = document.querySelector('.character03-bd').getBoundingClientRect().height;
-            let imgHeight = parseInt(document.querySelector('.img').offsetHeight);
-            let scrollBar = document.querySelector('.dot');
-            scrollBar.style.top = parseInt(this.scrollTop / imgHeight * scrollBarHeight) + 'px';
-            if(imgHeight < this.scrollTop + containerHeight) {
-                if (isWaiting) return;
-                isWaiting = true;
-                setTimeout(() => {
-                    isWaiting = false;
-                    document.querySelector('.character03').style.display = 'none';
-                    document.querySelector('.share').style.display = 'block';
-                }, 3000);
+        let isWaitingForShowShare = false;
+        let ticking = false;
+
+        function getScrollTop () {
+            // 考虑到浏览器版本兼容性问题，解析方式可能会不一样
+          return document.documentElement.scrollTop || document.body.scrollTop
+        }
+        function getWinHeight () {
+            // 浏览器可见内容高度 || 浏览器所有内容高度(考虑到浏览器版本兼容性问题，解析方式可能会不一样)
+            return document.documentElement.clientHeight || document.body.clientHeight
+        }
+
+        function getScrollHeight() {
+            let bodyScrollHeight = 0
+            let documentScrollHeight = 0
+            if (document.body) {
+              bodyScrollHeight = document.body.scrollHeight
+            }
+            if (document.documentElement) {
+              documentScrollHeight = document.documentElement.scrollHeight
+            }
+            return (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    if (document.querySelector('body').classList.contains('character03Active')) {
+                        let offset = document.body.offsetHeight;
+                        let scrollTop = window.scrollY;
+                        let innerHeight = window.innerHeight;
+                        let scrollBarHeight = document.querySelector('.character03-scroll-bar').getBoundingClientRect().height;
+                        let scrollBar = document.querySelector('.dot');
+                        scrollBar.style.top = parseInt(scrollTop / (offset - innerHeight) * (scrollBarHeight - 60)) + 'px';
+                        
+                        if(!isWaitingForShowShare) {
+                            if (getScrollTop() >= parseInt(getScrollHeight()) - getWinHeight()) {
+                                isWaitingForShowShare = true;
+                                setTimeout(() => {
+                                    document.querySelector('body').classList.remove('character03Active');
+                                    document.querySelector('.share').style.display = 'block';
+                                    isWaitingForShowShare = false;
+                                }, 2000);
+                            }
+                        }
+                    }
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
     },
@@ -63,10 +97,17 @@ const App = {
     initBackHome() {
         document.querySelectorAll('.icon-home').forEach(s => {
             s.addEventListener('click', () => {
+                window.scrollTo(0, 0);
+                document.querySelector('body').classList.remove('character03Active');
                 document.querySelector('.share').style.display = 'none';
                 document.querySelector('.refs').style.display = 'none';
                 document.querySelector('.character03').style.display = 'none';
                 pageMenu.init(this.stage);
+                try {
+                    document.querySelector('.video').pause();
+                } catch (e) {
+                    console.log(e);
+                }
             });  
         })
     },
@@ -87,6 +128,14 @@ const App = {
             audio.play();
         }
     },
+    loadCSSImags() {
+        setTimeout(() => {
+            ['bg-share.jpg', 'bg01.png', 'img-scrollbar.png', 'bg-scrollbar.png', 'bg01.png'].forEach(src => {
+                let img = document.createElement('img');
+                img.src = 'http://qncdn.mercurymage.com/virtual03/' + src;
+            });
+        }, 1000);
+    },
     init() {
         preload.load(_ => {
             this.initStage();
@@ -96,6 +145,7 @@ const App = {
             this.initShare();
             this.initRefs();
             this.initBGM();
+            this.loadCSSImags();
 
             pageHome.init(this.stage);
             // pageBurning.init(this.stage);

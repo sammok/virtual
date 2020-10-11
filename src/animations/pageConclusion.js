@@ -9,6 +9,8 @@ export default {
 
   backBtn: null,
 
+  firstPlayed: false,
+
   objectsForDestroy: [],
 
   drawedObjects: [],
@@ -60,19 +62,29 @@ export default {
         this.stage.setChildIndex(backBtn, 140);
       });
       
+      
       if (fromLeft) {
         img.x = -PSD_WIDTH;
         img.alpha = 1;
-        createjs.Tween.get(img).wait(250 * index).to({ x}, 1100, createjs.Ease.easeOut);
+        if (this.firstPlayed) {
+          img.x = x;
+        } else {
+          createjs.Tween.get(img).wait(250 * index).to({ x }, 1100, createjs.Ease.easeOut);
+        }
       }
       else {
-        createjs.Tween.get(img).wait(index < 4 ? 250 * index : 400 * index).to({ y: y, alpha: 1}, 450, createjs.Ease.quadIn);
+        if (this.firstPlayed) {
+          img.y = y;
+          img.alpha = 1;
+        } else {
+          createjs.Tween.get(img).wait(index < 4 ? 250 * index : 400 * index).to({ y: y, alpha: 1}, 450, createjs.Ease.quadIn);
+        }
       }
       
       container.addChild(img);
       this.timer = setTimeout(() => {
         this.genPagination();
-      }, config.length * 250);
+      }, this.firstPlayed ? 0 : config.length * 250);
     });
     
     this.backBtn = creator.btnCreator('btn-home');
@@ -85,11 +97,13 @@ export default {
     this.drawedObjects.push(this.backBtn);
     this.stage.addChild(this.backBtn, container);
     this.stage.setChildIndex(this.backBtn, 40);
+    this.firstPlayed = true;
   },
 
   cleanDraw() {
     this.drawedObjects.forEach(obj => this.stage.removeChild(obj));
     this.stage.removeChild(this.backBtn);
+    this.pagination && this.pagination.destroy();
   },
 
   destroy () {
@@ -106,13 +120,12 @@ export default {
       this.destroy();
       if (!document.querySelector('.video').innerHTML.includes('source')) {
         let video = document.createElement('source');
-        video.src = 'http://qncdn.mercurymage.com/virtual03/video.mp4';
+        video.src = 'http://qncdn.mercurymage.com/virtual03/video2.mp4';
         video.poster = 'http://qncdn.mercurymage.com/virtual03/cover-video.jpg';
         video.type = 'video/mp4';
         document.querySelector('.video').appendChild(video);
       }
-      document.querySelector('.character03').style.display = 'block';
-      document.querySelector('.character03-bd').scrollTop = 0;
+      document.querySelector('body').classList.add('character03Active');
       document.querySelector('.dot').style.top = 0;
     }});
   },

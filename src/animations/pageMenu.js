@@ -60,13 +60,12 @@ export default {
               this.destroy();
               if (!document.querySelector('.video').innerHTML.includes('source')) {
                 let video = document.createElement('source');
-                video.src = 'http://qncdn.mercurymage.com/virtual03/video.mp4';
+                video.src = 'http://qncdn.mercurymage.com/virtual03/video2.mp4';
                 // video.poster = 'http://qncdn.mercurymage.com/virtual03/cover-video.jpg';
                 video.type = 'video/mp4';
                 document.querySelector('.video').appendChild(video);
               }
-              document.querySelector('.character03').style.display = 'block';
-              document.querySelector('.character03-bd').scrollTop = 0;
+              document.querySelector('body').classList.add('character03Active');
               document.querySelector('.dot').style.top = 0;
             },
           });
@@ -273,7 +272,9 @@ export default {
     this.stage = stage;
     this.destroyed = false;
     this.createBg();
-    this.createButtons();
+    setTimeout(() => {
+      this.createButtons();
+    }, 50);;
     this.pagination = pagination(stage);
     this.pagination.paging();
   },

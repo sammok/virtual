@@ -354,7 +354,7 @@ export default () => {
           159,
         ],
         next: false,
-        speed: 0.1
+        speed: 0.15
       },
       "c": {
         frames: [
@@ -440,7 +440,7 @@ export default () => {
           32,
         ],
         next: false,
-        speed: 0.1
+        speed: 0.2
       },
       "b": {
         frames: [
@@ -526,7 +526,7 @@ export default () => {
           82,
         ],
         next: false,
-        speed: 0.1
+        speed: 0.25
       },
     },
   };
