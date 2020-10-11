@@ -1,9 +1,11 @@
-let api  =  (true)  ? 'http://192.168.0.100:8081' : 'http://qncdn.mercurymage.com/virtual03';
+let api  =  (false)  ? 'http://192.168.0.100:8081' : 'http://qncdn.mercurymage.com/virtual04';
 
 export default {
-  queue: new createjs.LoadQueue(),
+  queue: new createjs.LoadQueue(false),
   load(cb) {
     let partILoaded = false;
+    this.queue.setMaxConnections(200);
+    this.queue.maintainScriptOrder = true;
     this.queue.on("complete", handleComplete, this);
 
     const loadPartI = () => {
