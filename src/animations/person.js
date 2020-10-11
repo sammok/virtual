@@ -52,19 +52,19 @@ export default {
     animation.scaleX = 1.7;
     animation.scaleY = 1.7;
     animation.on('animationend', () => {
-      let personDot01 = new createjs.Bitmap(preload.queue.getResult('person-dot01'));
+      let personDot01 = new createjs.Sprite(window.sprites, 'person-dot01');
       personDot01.x = 237;
       personDot01.y = 100;
 
-      let personDot02 = new createjs.Bitmap(preload.queue.getResult('person-dot02'));
+      let personDot02 = new createjs.Sprite(window.sprites, 'person-dot02');
       personDot02.x = 396;
       personDot02.y = 274;
 
-      let personDot03 = new createjs.Bitmap(preload.queue.getResult('person-dot03'));
+      let personDot03 = new createjs.Sprite(window.sprites, 'person-dot03');
       personDot03.x = 149;
       personDot03.y = 340;
 
-      let personDot04 = new createjs.Bitmap(preload.queue.getResult('person-dot04'));
+      let personDot04 = new createjs.Sprite(window.sprites, 'person-dot04');
       personDot04.x = 211;
       personDot04.y = 479;
 
@@ -90,19 +90,19 @@ export default {
     this.personContainer.alpha = 0.53;
     createjs.Tween.get(this.personContainer).to({ alpha: 1 }, 1200, createjs.Ease.easeOut);
     
-    let personDot01 = new createjs.Bitmap(preload.queue.getResult('person-dot01'));
+    let personDot01 = new createjs.Sprite(window.sprites, 'person-dot01');
     personDot01.x = 237;
     personDot01.y = 100;
 
-    let personDot02 = new createjs.Bitmap(preload.queue.getResult('person-dot02'));
+    let personDot02 = new createjs.Sprite(window.sprites, 'person-dot02');
     personDot02.x = 396;
     personDot02.y = 274;
 
-    let personDot03 = new createjs.Bitmap(preload.queue.getResult('person-dot03'));
+    let personDot03 = new createjs.Sprite(window.sprites, 'person-dot03');
     personDot03.x = 149;
     personDot03.y = 340;
 
-    let personDot04 = new createjs.Bitmap(preload.queue.getResult('person-dot04'));
+    let personDot04 = new createjs.Sprite(window.sprites, 'person-dot04');
     personDot04.x = 211;
     personDot04.y = 479;
 

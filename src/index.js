@@ -6,6 +6,7 @@ import pageMenu from './animations/pageMenu';
 import pageText from './animations/pageText';
 import modal from './animations/modal';
 import pageConclusion from './animations/pageConclusion';
+import initMainSprites from "./animations/mainSprites";
 
 //  setting createjs
 createjs.Ticker.framerate = 65;
@@ -129,17 +130,43 @@ const App = {
         }
     },
     loadCSSImags() {
-        setTimeout(() => {
-            ['bg-share.jpg', 'bg01.png', 'img-scrollbar.png', 'bg-scrollbar.png', 'bg01.png'].forEach(src => {
-                let img = document.createElement('img');
-                img.src = 'http://qncdn.mercurymage.com/virtual03/' + src;
+        let data = [
+            { src: 'bg-share.jpg', selector: 'share' },
+            { src: 'bg01.png', selector: 'refs' },
+            { src: 'img-scrollbar.png', selector: 'dot' },
+            { src: 'bg-scrollbar.png', selector: 'character03-scroll-bar' },
+            { src: 'bg01.png', selector: 'character03' },
+            { src: 'btn-home.png', selector: 'icon-home' },
+            { src: 'icon-refs.png', selector: 'icon-refs' },
+            { src: 'btn-back.png', selector: 'icon-back' },
+            { src: 'img-history.png', selector: 'c03-img', type: 'img' },
+            { src: 'img-qrcode.png', selector: 'img-qrcode', type: 'img' },
+            { src: 'text-refs.png', selector: 'img-refs', type: 'img' },
+            { src: 'cover-video.jpg', selector: 'video', type: 'poster' },
+        ]
+        data.forEach(({ src, selector, type }) => {
+            let img = document.createElement('img');
+            img.addEventListener('load', function () {
+                let that = this;
+                if (type === 'img') {
+                    document.querySelector(`.${selector}`).src = this.src;
+                }
+                else if (type === 'poster') {
+                    document.querySelector(`.${selector}`).poster = this.src;
+                }
+                else {
+                    document.querySelectorAll(`.${selector}`).forEach(function (selector) {
+                        selector.style.backgroundImage = `url('${that.src}')`
+                    });
+                }
             });
-        }, 1000);
+            img.src = 'http://qncdn.mercurymage.com/virtual03/' + src;
+        });
     },
     init() {
         preload.load(_ => {
             this.initStage();
-
+            initMainSprites();
             this.initBackHome();
             this.initCharacter03();
             this.initShare();

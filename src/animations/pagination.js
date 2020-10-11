@@ -8,7 +8,7 @@ export default ((stage) => (
     objectsForDestroy: [],
   
     tips(tipsId) {
-      let bitmap = new createjs.Bitmap(preload.queue.getResult(tipsId));
+      let bitmap = new createjs.Sprite(window.sprites, tipsId);;
       this.objectsForDestroy.push(bitmap);
       bitmap.x = (PSD_WIDTH - 79 - 27);
       bitmap.y = (CANVAS_HEIGHT - 84 - 33);

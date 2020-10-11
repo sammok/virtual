@@ -52,10 +52,10 @@ export default {
     container.y = 115;
     container.x = (PSD_WIDTH - 140) / 2;
     container.alpha = 0;
-    let line = new createjs.Bitmap(preload.queue.getResult('tips-line'));
+    let line = new createjs.Sprite(window.sprites, 'tips-line');
     line.x = 68;
     line.y = 25;
-    let hand = new createjs.Bitmap(preload.queue.getResult('tips-hand'));
+    let hand = new createjs.Sprite(window.sprites, 'tips-hand');
     createjs.Tween.get(container).wait(250).to({ alpha: 1 }, 1400).on('complete', () => {
       createjs.Tween.get(hand, { loop: true }).to({ x: 20 }, 750, createjs.Ease.linear).to({ x: 0 }, 450, createjs.Ease.linear);
     });
@@ -128,12 +128,12 @@ export default {
       1: [
         { id: 'burning-b-text01', x: 177, y: CANVAS_HEIGHT - 496 - 43 },
         { id: 'burning-b-text02', x: 127, y: CANVAS_HEIGHT - 458 - 72 },
-        { id: 'burning-b-text03', x: 285, y: CANVAS_HEIGHT - 54 - 39 },
+        { id: 'burning-a-text03', x: 285, y: CANVAS_HEIGHT - 54 - 39 },
       ],
       2: [
         { id: 'burning-c-text01', x: 141, y: CANVAS_HEIGHT - 725 - 60 },
         { id: 'burning-c-text02', x: 90, y: CANVAS_HEIGHT - 690 - 70 },
-        { id: 'burning-c-text03', x: 285, y: CANVAS_HEIGHT - 54 - 39 },
+        { id: 'burning-a-text03', x: 285, y: CANVAS_HEIGHT - 54 - 39 },
       ]
     })[index]);
   },
@@ -262,7 +262,7 @@ export default {
     this.texts = [];
 
     textInfo.forEach(({ id, x, y }, index) => {
-      let bitmap = new createjs.Bitmap(preload.queue.getResult(id));
+      let bitmap = new createjs.Sprite(window.sprites, id);
       bitmap.x = x;
       bitmap.y = y;
       bitmap.alpha = 0;

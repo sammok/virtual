@@ -14,9 +14,10 @@ export default {
   },
 
   btnCreator (id) {
-    let backBtn = new createjs.Bitmap(preload.queue.getResult(id));
+    let backBtn = new createjs.Sprite(window.sprites, id);
+    let { x, y, width, height } = backBtn.getBounds();
     var hitArea = new createjs.Shape();
-    hitArea.graphics.f("#fff").dr(backBtn.x - 20, backBtn.y - 20, backBtn.image.width + 40, backBtn.image.height + 40);
+    hitArea.graphics.f("#fff").dr(x - 20, y - 20, width + 40, height + 40);
     backBtn.hitArea = hitArea;
     return backBtn;
   }

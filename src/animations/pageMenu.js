@@ -72,7 +72,7 @@ export default {
         },
       },
     ].forEach(({ name, x, y, wait, onClick }, index) => {
-      let bitmap = new createjs.Bitmap(preload.queue.getResult(name));
+      let bitmap = new createjs.Sprite(window.sprites, name);
       bitmap.x = x;
       bitmap.y = y;
       bitmap.alpha = 0;

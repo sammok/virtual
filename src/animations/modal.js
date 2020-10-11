@@ -29,9 +29,10 @@ export default stage => ({
     }
 
     //  text
-    let text = new createjs.Bitmap(preload.queue.getResult(modalTextId));
-    text.x = (bg.image.width - text.image.width) / 2;
-    text.y = (bg.image.height - text.image.height) / 2;
+    let text = new createjs.Sprite(window.sprites, modalTextId);
+    let { width, height } = text.getBounds();
+    text.x = (bg.image.width - width) / 2;
+    text.y = (bg.image.height - height) / 2;
     text.alpha = 0;
 
     createjs.Tween.get(text).to({ alpha: 1 }, 750, createjs.Ease.linear);

@@ -40,7 +40,7 @@ export default {
     this.drawedObjects.push(container);
     
     config.forEach(({ id, x, y, modalIndex, fromLeft }, index) => {
-      let img = new createjs.Bitmap(preload.queue.getResult(id));
+      let img = new createjs.Sprite(window.sprites, id);
       img.x = x;
       img.y = y + 10;
       img.alpha = 0;
